@@ -82,25 +82,27 @@ const DetailPage = () => {
         </View>
         <View style={styles.contentContainer}>
           <Stat stats={stats} color={pokemonColor} isLight={!isLight} />
-          <Label title="Height" value={`${height / 10} m`} />
-          <Label title="Weight" value={`${weight / 10} m`} />
-          <Label title="Base Experience" value={base_experience.toString()} />
-          <Label
-            title="Abilities"
-            value={abilities.map(ability => ability.ability.name).join(', ')}
-          />
-          <Label title="Sprites" />
-          <View style={styles.spriteContainer}>
-            {sprites.map((sprite, index) => (
-              <Image
-                key={index}
-                source={{
-                  uri: sprite,
-                }}
-                resizeMode="cover"
-                style={styles.imageSprite}
-              />
-            ))}
+          <View style={styles.detailContainer}>
+            <Label title="Height" value={`${height / 10} m`} />
+            <Label title="Weight" value={`${weight / 10} m`} />
+            <Label title="Base Experience" value={base_experience.toString()} />
+            <Label
+              title="Abilities"
+              value={abilities.map(ability => ability.ability.name).join(', ')}
+            />
+            <Label title="Sprites" />
+            <View style={styles.spriteContainer}>
+              {sprites.map((sprite, index) => (
+                <Image
+                  key={index}
+                  source={{
+                    uri: sprite,
+                  }}
+                  resizeMode="cover"
+                  style={styles.imageSprite}
+                />
+              ))}
+            </View>
           </View>
           <Evolution evolutions={evolutions} />
         </View>
@@ -155,5 +157,12 @@ const styles = StyleSheet.create({
   imageSprite: {
     width: 70,
     height: 70,
+  },
+  detailContainer: {
+    padding: 8,
+    borderWidth: 1,
+    borderColor: colors.shade75,
+    borderRadius: 8,
+    marginBottom: 8,
   },
 });
