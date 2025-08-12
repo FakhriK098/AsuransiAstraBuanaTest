@@ -78,12 +78,14 @@ export type Pokemon = {
   evolutions?: Evolution[];
 };
 
+export interface PokemonResult {
+  name: string;
+  url: string;
+}
+
 export type PokemonListResponse = {
   count: number;
   next: string;
   prev: string;
-  results: {
-    name: string;
-    url: string;
-  }[];
+  results: PokemonResult[];
 };

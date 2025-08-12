@@ -74,24 +74,9 @@ export const fetchPokemonById = createAsyncThunk<Pokemon, string | number>(
   },
 );
 
-// export const fetchPokemonByName = createAsyncThunk<Pokemon, string>(
-//   'pokemon/fetchByName',
-//   async name => {
-//     return await pokemonService.getPokemonByName(name);
-//   },
-// );
-
-// export const searchPokemon = createAsyncThunk<Pokemon | null, string>(
-//   'pokemon/search',
-//   async query => {
-//     return await pokemonService.searchPokemon(query);
-//   },
-// );
-
-// export const fetchPokemonForCompare = createAsyncThunk<
-//   { index: 0 | 1; pokemon: Pokemon },
-//   { index: 0 | 1; id: string | number }
-// >('pokemon/fetchForCompare', async ({ index, id }) => {
-//   const pokemon = await pokemonService.getPokemonById(id);
-//   return { index, pokemon };
-// });
+export const searchPokemon = createAsyncThunk<PokemonListResponse>(
+  'pokemon/search',
+  async () => {
+    return await pokemonService.searchPokemon();
+  },
+);
