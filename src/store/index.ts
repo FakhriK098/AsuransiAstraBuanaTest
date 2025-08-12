@@ -6,7 +6,12 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE', 'pokemon/fetchList/fulfilled'],
+        ignoredPaths: ['pokemon.pokemonList'],
+        warnAfter: 128,
+      },
+      immutableCheck: {
+        warnAfter: 128,
       },
     }),
 });
