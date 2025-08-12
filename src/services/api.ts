@@ -1,9 +1,8 @@
 import axios from 'axios';
-
-const API_BASE_URL = 'https://pokeapi.co/api/v2';
+import Constant from '../constants';
 
 export const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: Constant.BaseUrl,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

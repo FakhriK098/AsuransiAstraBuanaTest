@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     paddingHorizontal: 8,
     paddingVertical: 8,
-    // marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,

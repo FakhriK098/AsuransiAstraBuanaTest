@@ -7,4 +7,6 @@ export interface CardPokemonProps {
 export interface TypeProps {
   text: string;
   isLight: boolean;
+  backgroundColor?: string;
+  fontSize?: number;
 }

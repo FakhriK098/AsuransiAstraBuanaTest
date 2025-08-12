@@ -1,11 +1,10 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { CardPokemonProps } from '../../../types/home';
-import { colors } from '../../../themes/colors';
-import tinycolor from 'tinycolor2';
-import Type from './Type';
 import { useNavigation } from '@react-navigation/native';
+import { CardPokemonProps } from '../../../types/home';
 import { RootNavigationProps } from '../../../navigation/type';
+import tinycolor from 'tinycolor2';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import Type from './Type';
+import { colors } from '../../../themes/colors';
 
 const CardPokemon = ({ item }: CardPokemonProps) => {
   const { navigate } = useNavigation<RootNavigationProps>();

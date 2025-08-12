@@ -1,18 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { colors } from '../../../themes/colors';
 import { TypeProps } from '../../../types/home';
 
-const Type = ({ text, isLight }: TypeProps) => {
+const Type = ({ text, isLight, backgroundColor, fontSize }: TypeProps) => {
+  const tempBackgroundColor = useMemo(() => {
+    if (backgroundColor) {
+      return backgroundColor;
+    }
+    return isLight ? colors.black : colors.white;
+  }, [isLight, backgroundColor]);
+
   return (
-    <View
-      style={[
-        styles.containter,
-        { backgroundColor: isLight ? colors.black : colors.white },
-      ]}
-    >
+    <View style={[styles.containter, { backgroundColor: tempBackgroundColor }]}>
       <Text
-        style={[styles.text, { color: isLight ? colors.white : colors.black }]}
+        style={[
+          styles.text,
+          {
+            color: isLight ? colors.white : colors.black,
+            fontSize: fontSize || 8,
+          },
+        ]}
       >
         {text}
       </Text>
@@ -35,7 +43,6 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   text: {
-    fontSize: 8,
     textTransform: 'capitalize',
   },
 });

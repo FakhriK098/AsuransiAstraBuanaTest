@@ -51,6 +51,15 @@ export type Evolves = {
   species: { name: string; url: string };
 };
 
+export interface Stat {
+  base_stat: number;
+  effort: number;
+  stat: {
+    name: string;
+    url: string;
+  };
+}
+
 export type Pokemon = {
   id: number;
   name: string;
@@ -58,12 +67,15 @@ export type Pokemon = {
   sprites: Sprites;
   weight: number;
   height: number;
+  base_experience: number;
   moves: Moves[];
   species: Species;
+  stats: Stat[];
   colors: Colors;
   abilities: Ability[];
   evolutionChain: { url: string };
   chain: Evolves;
+  evolutions?: Evolution[];
 };
 
 export type PokemonListResponse = {
