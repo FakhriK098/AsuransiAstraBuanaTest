@@ -11,26 +11,26 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config) => {
+  config => {
     console.log('API Request:', config.url);
     return config;
   },
-  (error) => {
+  error => {
     console.error('Request Error:', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 api.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  (error) => {
+  error => {
     console.error('Response Error:', error);
     if (error.response) {
       console.error('Error Data:', error.response.data);
       console.error('Error Status:', error.response.status);
     }
     return Promise.reject(error);
-  }
+  },
 );

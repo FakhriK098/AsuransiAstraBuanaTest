@@ -1,59 +1,77 @@
-export interface Pokemon {
-  id: number;
-  name: string;
-  types: PokemonType[];
-  sprites: {
-    front_default: string;
-    back_default: string;
-    front_shiny: string;
-    back_shiny: string;
-    other: {
-      'official-artwork': {
-        front_default: string;
-      };
-    };
-  };
-  stats: PokemonStat[];
-  height: number;
-  weight: number;
-  abilities: PokemonAbility[];
-  base_experience: number;
-}
-
-export interface PokemonType {
+export type Types = {
   slot: number;
   type: {
     name: string;
     url: string;
   };
-}
+};
 
-export interface PokemonStat {
-  base_stat: number;
-  effort: number;
-  stat: {
+export type Sprites = {
+  back_default: string;
+  back_shiny: string;
+  front_default: string;
+  front_shiny: string;
+  other: { 'official-artwork': { front_default: string } };
+};
+
+export type Moves = {
+  move: {
     name: string;
-    url: string;
   };
-}
+};
 
-export interface PokemonAbility {
-  ability: {
-    name: string;
-    url: string;
-  };
-  is_hidden: boolean;
-  slot: number;
-}
-
-export interface PokemonListItem {
+export type Species = {
   name: string;
   url: string;
-}
+};
 
-export interface PokemonListResponse {
+export type Colors = {
+  name: string;
+};
+
+export type Ability = {
+  ability: { name: string };
+};
+
+export type Evolution = {
+  evolutionFrom: string;
+  evolutionImgFrom: string;
+  level: string | number;
+  evolutionTo: string;
+  evolutionImgTo: string;
+};
+
+export type EvolutionDetail = {
+  min_level: number;
+};
+
+export type Evolves = {
+  evolution_details: EvolutionDetail[];
+  evolves_to: Evolves[];
+  species: { name: string; url: string };
+};
+
+export type Pokemon = {
+  id: number;
+  name: string;
+  types: Types[];
+  sprites: Sprites;
+  weight: number;
+  height: number;
+  moves: Moves[];
+  species: Species;
+  colors: Colors;
+  abilities: Ability[];
+  evolutionChain: { url: string };
+  chain: Evolves;
+};
+
+export type PokemonListResponse = {
   count: number;
-  next: string | null;
-  previous: string | null;
-  results: PokemonListItem[];
-}
+  next: string;
+  prev: string;
+  results: {
+    name: string;
+    url: string;
+  }[];
+};
