@@ -35,7 +35,7 @@ const DetailPage = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchPokemonById(pokemonId || ''));
+    dispatch(fetchPokemonById({ id: pokemonId || '', page: 'detail' }));
 
     return () => {
       dispatch(resetDetail());

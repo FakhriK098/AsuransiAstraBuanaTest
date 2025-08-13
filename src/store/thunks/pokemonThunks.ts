@@ -39,42 +39,45 @@ export const fetchPokemonList = createAsyncThunk<
   return { detailedList: finalResult };
 });
 
-export const fetchPokemonById = createAsyncThunk<Pokemon, string | number>(
-  'pokemon/fetchById',
-  async id => {
-    const detail = await pokemonService.getPokemonById(id);
-    const species = await api.get(detail.species.url);
-    const evolution = await api.get(species.data.evolution_chain.url);
-    const chain = evolution.data.chain;
-    const evolutionResult: Evolution[] = [];
-    let hasEvolution = true;
+export const fetchPokemonById = createAsyncThunk<
+  { pokemon: Pokemon; page: string },
+  { id: string | number; page: string }
+>('pokemon/fetchById', async ({ id, page }) => {
+  const detail = await pokemonService.getPokemonById(id);
+  const species = await api.get(detail.species.url);
+  const evolution = await api.get(species.data.evolution_chain.url);
+  const chain = evolution.data.chain;
+  const evolutionResult: Evolution[] = [];
+  let hasEvolution = true;
 
-    if (chain) {
-      hasEvolution = chain.evolves_to.length > 0;
-      let evolve: Evolves = chain;
-      while (hasEvolution) {
-        const evol: Evolution = {
-          evolutionFrom: evolve.species.name,
-          level: evolve.evolves_to[0].evolution_details[0].min_level,
-          evolutionTo: evolve.evolves_to[0].species.name,
-          evolutionImgFrom: createImgLink(0, evolve.species.url),
-          evolutionImgTo: createImgLink(0, evolve.evolves_to[0].species.url),
-        };
+  if (chain) {
+    hasEvolution = chain.evolves_to.length > 0;
+    let evolve: Evolves = chain;
+    while (hasEvolution) {
+      const evol: Evolution = {
+        evolutionFrom: evolve.species.name,
+        level: evolve.evolves_to[0].evolution_details[0].min_level,
+        evolutionTo: evolve.evolves_to[0].species.name,
+        evolutionImgFrom: createImgLink(0, evolve.species.url),
+        evolutionImgTo: createImgLink(0, evolve.evolves_to[0].species.url),
+      };
 
-        evolutionResult.push(evol);
-        hasEvolution = evolve.evolves_to[0].evolves_to.length > 0;
-        evolve = evolve.evolves_to[0];
-      }
+      evolutionResult.push(evol);
+      hasEvolution = evolve.evolves_to[0].evolves_to.length > 0;
+      evolve = evolve.evolves_to[0];
     }
+  }
 
-    return {
+  return {
+    pokemon: {
       ...detail,
       colors: { name: species.data.color.name },
       evolutionChain: { url: species.data.evolution_chain.url },
       evolutions: evolutionResult,
-    };
-  },
-);
+    },
+    page,
+  };
+});
 
 export const searchPokemon = createAsyncThunk<PokemonListResponse>(
   'pokemon/search',
