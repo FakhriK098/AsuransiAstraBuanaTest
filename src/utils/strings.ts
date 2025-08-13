@@ -1,4 +1,5 @@
 import Constant from '../constants';
+import { PokemonResult } from '../types/pokemon';
 
 export const createImgLink = (id: number, url?: string): string => {
   let imgUrl: string = '';
@@ -13,4 +14,9 @@ export const createImgLink = (id: number, url?: string): string => {
   }
 
   return imgUrl;
+};
+
+export const getId = (poke: PokemonResult): string => {
+  const idMatch = poke.name.match(/\/(\d+)\/$/);
+  return idMatch ? idMatch[1] : poke.name;
 };

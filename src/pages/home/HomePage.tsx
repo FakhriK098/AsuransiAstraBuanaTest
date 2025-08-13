@@ -18,16 +18,19 @@ import { colors } from '../../themes/colors';
 import images from '../../assets/images';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProps } from '../../navigation/type';
+import { Modalize } from 'react-native-modalize';
+import ModalFilter from './components/ModalFilter';
 
 const HomePage = () => {
   const { navigate } = useNavigation<RootNavigationProps>();
   const dispatch = useAppDispatch();
-  const { pokemonList, loading, totalCount } = useAppSelector(
+  const { pokemonList, loading, countFilter } = useAppSelector(
     state => state.pokemon,
   );
   const [offset, setOffset] = React.useState(0);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const hasMoreData = useRef(true);
+  const modalFilterRef = useRef<Modalize>(null);
 
   useEffect(() => {
     dispatch(fetchPokemonList({ offset: 0 }));
@@ -38,16 +41,14 @@ const HomePage = () => {
   };
 
   const handleRefresh = useCallback(() => {
+    if (countFilter > 0) return;
     dispatch(fetchPokemonList({ offset: 0 }));
-  }, [dispatch]);
+  }, [dispatch, countFilter]);
 
   const handleLoadMore = useCallback(() => {
     if (loading || isLoadingMore || !hasMoreData.current) return;
 
-    if (pokemonList.length >= totalCount && totalCount > 0) {
-      hasMoreData.current = false;
-      return;
-    }
+    if (countFilter > 0) return;
 
     const newOffset = offset + 1;
     setIsLoadingMore(true);
@@ -56,14 +57,11 @@ const HomePage = () => {
     dispatch(fetchPokemonList({ offset: newOffset })).finally(() => {
       setIsLoadingMore(false);
     });
-  }, [
-    dispatch,
-    offset,
-    loading,
-    isLoadingMore,
-    pokemonList.length,
-    totalCount,
-  ]);
+  }, [dispatch, offset, loading, isLoadingMore, countFilter]);
+
+  const handleFilter = () => {
+    modalFilterRef.current?.open();
+  };
 
   const renderFooter = () => {
     if (!isLoadingMore && !loading) return null;
@@ -71,6 +69,14 @@ const HomePage = () => {
     return (
       <View style={styles.containerLoading}>
         <ActivityIndicator size="small" />
+      </View>
+    );
+  };
+
+  const renderEmpty = () => {
+    return (
+      <View style={styles.containerEmpty}>
+        <Text style={styles.textEmpty}>Data No Found</Text>
       </View>
     );
   };
@@ -85,7 +91,7 @@ const HomePage = () => {
         <Pressable style={styles.searchContainer} onPress={handleSearch}>
           <Text style={styles.textSearch}>Search</Text>
         </Pressable>
-        <Pressable style={styles.filterContainer}>
+        <Pressable style={styles.filterContainer} onPress={handleFilter}>
           <Image source={images.filter} style={styles.imageFilter} />
         </Pressable>
       </View>
@@ -96,15 +102,14 @@ const HomePage = () => {
         keyExtractor={(item, index) => `pokemon-${item.id}-${index}`}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={renderEmpty}
         onEndReachedThreshold={0.5}
         onEndReached={handleLoadMore}
         refreshControl={
-          <RefreshControl
-            refreshing={loading && pokemonList.length === 0}
-            onRefresh={handleRefresh}
-          />
+          <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
         }
       />
+      <ModalFilter modalRef={modalFilterRef} />
     </SafeAreaView>
   );
 };
@@ -152,5 +157,14 @@ const styles = StyleSheet.create({
   imageFilter: {
     width: 24,
     height: 24,
+  },
+  containerEmpty: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textEmpty: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

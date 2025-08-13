@@ -2,10 +2,18 @@ import { useNavigation } from '@react-navigation/native';
 import { CardPokemonProps } from '../../../types/home';
 import { RootNavigationProps } from '../../../navigation/type';
 import tinycolor from 'tinycolor2';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Type from './Type';
 import { colors } from '../../../themes/colors';
 
+const { width } = Dimensions.get('window');
 const CardPokemon = ({ item }: CardPokemonProps) => {
   const { navigate } = useNavigation<RootNavigationProps>();
   const tinyColor = tinycolor(item.colors.name);
@@ -23,7 +31,10 @@ const CardPokemon = ({ item }: CardPokemonProps) => {
   };
 
   return (
-    <Pressable style={styles.container} onPress={handleOnPress}>
+    <Pressable
+      style={[styles.container, { width: (width - 8 * 4) / 2 }]}
+      onPress={handleOnPress}
+    >
       <View
         style={[
           styles.background,
@@ -41,7 +52,9 @@ const CardPokemon = ({ item }: CardPokemonProps) => {
           <Text
             style={[
               styles.title,
-              { color: isLight ? colors.black : colors.white },
+              {
+                color: isLight ? colors.black : colors.white,
+              },
             ]}
             numberOfLines={1}
           >
@@ -73,7 +86,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 2,
-    flex: 1 / 2,
     backgroundColor: colors.white,
   },
   image: {
@@ -96,11 +108,13 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     marginLeft: 8,
+    flex: 1,
   },
   title: {
     fontSize: 14,
     fontWeight: '400',
     textTransform: 'capitalize',
+    maxWidth: '70%',
   },
   typeContainer: {
     flexDirection: 'column',
