@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   SafeAreaView,
   ScrollView,
@@ -8,8 +9,11 @@ import {
 } from 'react-native';
 import React, { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { useRoute } from '@react-navigation/native';
-import { DetailNavigationParams } from '../../navigation/type';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import {
+  DetailNavigationParams,
+  RootNavigationProps,
+} from '../../navigation/type';
 import { fetchPokemonById } from '../../store/thunks/pokemonThunks';
 import Type from '../home/components/Type';
 import tinycolor from 'tinycolor2';
@@ -17,16 +21,25 @@ import { colors } from '../../themes/colors';
 import Label from './components/Label';
 import Evolution from './components/Evolution';
 import Stat from './components/Stat';
+import FloatingCompare from '../../components/FloatingCompare';
+import { resetDetail } from '../../store/slices/pokemonSlice';
 
 const DetailPage = () => {
   const {
     params: { pokemonId },
   } = useRoute<DetailNavigationParams>();
+  const { navigate } = useNavigation<RootNavigationProps>();
   const dispatch = useAppDispatch();
-  const { pokemonDetail } = useAppSelector(state => state.pokemon);
+  const { pokemonDetail, detailLoading } = useAppSelector(
+    state => state.pokemon,
+  );
 
   useEffect(() => {
     dispatch(fetchPokemonById(pokemonId || ''));
+
+    return () => {
+      dispatch(resetDetail());
+    };
   }, [dispatch, pokemonId]);
 
   const isLight = useMemo(() => {
@@ -56,6 +69,11 @@ const DetailPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {detailLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.black} />
+        </View>
+      )}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.headerContainer}>
           <Image
@@ -107,6 +125,11 @@ const DetailPage = () => {
           <Evolution evolutions={evolutions} />
         </View>
       </ScrollView>
+      <FloatingCompare
+        onPress={() =>
+          navigate('Compare', { pokemonId: String(pokemonDetail.id) || '' })
+        }
+      />
     </SafeAreaView>
   );
 };
@@ -164,5 +187,18 @@ const styles = StyleSheet.create({
     borderColor: colors.shade75,
     borderRadius: 8,
     marginBottom: 8,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.shade50,
+    zIndex: 10,
+    opacity: 0.4,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });

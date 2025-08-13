@@ -22,3 +22,7 @@ export interface SectionFilterProps {
   options: string[];
   title: string;
 }
+
+export interface FloatingCompareProps {
+  onPress: () => void;
+}

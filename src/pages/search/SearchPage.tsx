@@ -36,7 +36,6 @@ const SearchPage = () => {
     (text: string) => {
       if (searchResult) {
         if (/^\d+$/.test(text)) {
-          console.log('text1', text);
           const filtered = searchResult.results.filter(result => {
             return result.url
               .replace(`${Constant.BaseUrl}/pokemon/`, '')

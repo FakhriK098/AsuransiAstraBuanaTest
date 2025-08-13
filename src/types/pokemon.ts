@@ -84,9 +84,9 @@ export interface PokemonResult {
 }
 
 export type PokemonListResponse = {
-  count: number;
-  next: string;
-  prev: string;
+  count?: number;
+  next?: string;
+  prev?: string;
   results: PokemonResult[];
 };
 

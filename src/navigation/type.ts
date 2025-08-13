@@ -5,8 +5,9 @@ export type RootStackParamList = {
   Home: undefined;
   Detail: { pokemonId?: string };
   Search: undefined;
-  Compare: { pokemonId1?: string; pokemonId2?: string };
+  Compare?: { pokemonId: string };
 };
 
 export type RootNavigationProps = NativeStackNavigationProp<RootStackParamList>;
 export type DetailNavigationParams = RouteProp<RootStackParamList, 'Detail'>;
+export type CompareNavigationParams = RouteProp<RootStackParamList, 'Compare'>;
