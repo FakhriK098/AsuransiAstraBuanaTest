@@ -94,9 +94,11 @@ const ModalPokemon = ({ modalRef }: ModalPokemonProps) => {
 
   const handleAdd = () => {
     if (selected) {
-      dispatch(fetchPokemonById(selected.name)).then(() => {
-        dispatch(addPokemonToCompare());
-      });
+      dispatch(fetchPokemonById({ id: selected.name, page: 'compare' })).then(
+        () => {
+          dispatch(addPokemonToCompare());
+        },
+      );
       setSelected(null);
       modalRef.current?.close();
     }

@@ -114,7 +114,9 @@ const pokemonSlice = createSlice({
       })
       .addCase(fetchPokemonById.fulfilled, (state, action) => {
         state.detailLoading = false;
-        state.pokemonDetail = action.payload;
+        if (action.payload.page === 'detail') {
+          state.pokemonDetail = action.payload.pokemon;
+        }
       })
       .addCase(fetchPokemonById.rejected, (state, action) => {
         state.detailLoading = false;

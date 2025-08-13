@@ -73,7 +73,9 @@ const compareSlice = createSlice({
       })
       .addCase(fetchPokemonById.fulfilled, (state, action) => {
         state.loading = false;
-        state.pokemonList.push(action.payload);
+        if (action.payload.page === 'compare') {
+          state.pokemonList.push(action.payload.pokemon);
+        }
       })
       .addCase(fetchPokemonById.rejected, (state, action) => {
         state.loading = false;

@@ -48,7 +48,7 @@ const ComparePage = () => {
   const onPressRemove = (name: string, url: string) => {
     dispatch(removePokemonToCompare({ name, url }));
   };
-  console.log('pokemonList', pokemonList);
+
   return (
     <SafeAreaView style={styles.container}>
       {optionLoading && (
