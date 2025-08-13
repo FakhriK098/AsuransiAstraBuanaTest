@@ -56,7 +56,7 @@ const compareSlice = createSlice({
         pokemon => pokemon.name !== action.payload.name,
       );
 
-      if (newPokemon.length === 1) {
+      if (newPokemon.length > 0) {
         state.availableSlot -= 1;
       }
 

@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Platform, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Modalize } from 'react-native-modalize';
 import { ModalFilterProps } from '../../../types/home';
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 16,
-    marginBottom: 16,
+    marginBottom: Platform.select({ ios: 16, android: 0 }),
   },
   button: {
     width: '48%',

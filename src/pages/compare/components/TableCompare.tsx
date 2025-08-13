@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.black,
     marginTop: 16,
+    marginEnd: 8,
   },
   row: {
     flexDirection: 'row',

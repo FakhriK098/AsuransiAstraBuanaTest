@@ -31,6 +31,7 @@ const HomePage = () => {
   );
   const [offset, setOffset] = React.useState(0);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+  const [isRefresh, setIsRefresh] = React.useState(false);
   const hasMoreData = useRef(true);
   const modalFilterRef = useRef<Modalize>(null);
 
@@ -44,7 +45,10 @@ const HomePage = () => {
 
   const handleRefresh = useCallback(() => {
     if (countFilter > 0) return;
-    dispatch(fetchPokemonList({ offset: 0 }));
+    setIsRefresh(true);
+    dispatch(fetchPokemonList({ offset: 0 })).then(() => {
+      setIsRefresh(false);
+    });
   }, [dispatch, countFilter]);
 
   const handleLoadMore = useCallback(() => {
@@ -109,7 +113,7 @@ const HomePage = () => {
         onEndReachedThreshold={0.5}
         onEndReached={handleLoadMore}
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
+          <RefreshControl refreshing={isRefresh} onRefresh={handleRefresh} />
         }
       />
       <FloatingCompare onPress={() => navigate('Compare')} />
