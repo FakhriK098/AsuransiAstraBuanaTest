@@ -5,6 +5,7 @@ import tinycolor from 'tinycolor2';
 import {
   Dimensions,
   Image,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     textTransform: 'capitalize',
-    maxWidth: '70%',
+    maxWidth: Platform.select({ ios: '70%', android: '100%' }),
   },
   typeContainer: {
     flexDirection: 'column',

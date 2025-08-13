@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import { colors } from '../themes/colors';
 import { FloatingCompareProps } from '../types/home';
@@ -22,7 +28,7 @@ export default FloatingCompare;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 48,
+    bottom: Platform.select({ ios: 48, android: 20 }),
     right: 0,
     left: 0,
     justifyContent: 'center',

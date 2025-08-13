@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { StatProps } from '../../../types/detail';
 import { Stat as IStat } from '../../../types/pokemon';
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     borderRadius: 8,
     padding: 8,
-    elevation: 8,
+    elevation: Platform.select({ ios: 8, android: 0 }),
     shadowColor: colors.black,
     shadowOffset: {
       width: 0,
