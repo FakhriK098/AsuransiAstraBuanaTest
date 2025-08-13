@@ -89,3 +89,17 @@ export type PokemonListResponse = {
   prev: string;
   results: PokemonResult[];
 };
+
+export type MoveResponse = {
+  learned_by_pokemon: PokemonResult[];
+};
+
+export type TypeResponse = {
+  pokemon: {
+    pokemon: PokemonResult;
+  }[];
+};
+
+export type ColorResponse = {
+  pokemon_species: PokemonResult[];
+};

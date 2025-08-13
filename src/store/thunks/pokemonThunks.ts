@@ -8,9 +8,11 @@ import {
 } from '../../types/pokemon';
 import { api } from '../../services/api';
 import { createImgLink } from '../../utils/strings';
+import { IFilter } from '../slices/pokemonSlice';
+import { intersectArrays } from '../../utils/arrays';
 
 export const fetchPokemonList = createAsyncThunk<
-  { list: PokemonListResponse; detailedList: Pokemon[] },
+  { detailedList: Pokemon[] },
   { offset?: number }
 >('pokemon/fetchList', async ({ offset = 0 }) => {
   const list = await pokemonService.getPokemonList(offset);
@@ -34,7 +36,7 @@ export const fetchPokemonList = createAsyncThunk<
     }),
   );
 
-  return { list, detailedList: finalResult };
+  return { detailedList: finalResult };
 });
 
 export const fetchPokemonById = createAsyncThunk<Pokemon, string | number>(
@@ -80,3 +82,68 @@ export const searchPokemon = createAsyncThunk<PokemonListResponse>(
     return await pokemonService.searchPokemon();
   },
 );
+
+export const getPokemonMoves = createAsyncThunk<PokemonListResponse>(
+  'pokemon/moves',
+  async () => {
+    return await pokemonService.getPokemonMoves();
+  },
+);
+
+export const getPokemonTypes = createAsyncThunk<PokemonListResponse>(
+  'pokemon/types',
+  async () => {
+    return await pokemonService.getPokemonTypes();
+  },
+);
+
+export const getPokemonColors = createAsyncThunk<PokemonListResponse>(
+  'pokemon/colors',
+  async () => {
+    return await pokemonService.getPokemonColors();
+  },
+);
+
+export const getPokemonFiltered = createAsyncThunk<
+  { detailedList: Pokemon[] },
+  IFilter
+>('pokemon/filtered', async ({ colorSelected, moveSelected, typeSelected }) => {
+  const fetchPromises: Promise<string[]>[] = [];
+
+  if (typeSelected) {
+    fetchPromises.push(pokemonService.getPokemonByTypes(typeSelected));
+  }
+  if (moveSelected) {
+    fetchPromises.push(pokemonService.getPokemonByMoves(moveSelected));
+  }
+  if (colorSelected) {
+    fetchPromises.push(pokemonService.getPokemonByColors(colorSelected));
+  }
+
+  const resAll: string[][] = await Promise.all(fetchPromises);
+
+  let results = intersectArrays(...resAll);
+
+  if (resAll.length === 1) {
+    results = resAll[0];
+  }
+
+  const detailedList = await Promise.all(
+    results.map(async item => {
+      return await pokemonService.getPokemonById(item);
+    }),
+  );
+
+  const finalResult = await Promise.all(
+    detailedList.map(async (item): Promise<Pokemon> => {
+      const b = (await api.get(item.species.url)).data;
+      return {
+        ...item,
+        colors: { name: b.color.name },
+        evolutionChain: { url: b.evolution_chain.url },
+      };
+    }),
+  );
+
+  return { detailedList: finalResult };
+});
