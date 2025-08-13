@@ -11,9 +11,13 @@ A React Native application for browsing Pokemon with search, filter, detail, and
 - **Infinite Scroll**: Load more pokemon as you scroll
 - **Pull to Refresh**: Refresh the pokemon list with a pull gesture
 
+<img width="300" height="800" alt="Simulator Screenshot - IPhone Seva 13 - 2025-08-13 at 15 59 30" src="https://github.com/user-attachments/assets/a1d36118-18fa-48b5-8ebe-53ecd30acc9c" /> <img width="300" height="800" alt="Simulator Screenshot - IPhone Seva 13 - 2025-08-13 at 15 59 55" src="https://github.com/user-attachments/assets/3889292b-580e-402c-9c60-3413a1d5869a" /> <img width="300" height="800" alt="Simulator Screenshot - IPhone Seva 13 - 2025-08-13 at 16 00 25" src="https://github.com/user-attachments/assets/6bc5c4a0-6230-4453-a07e-efbf05bc8f2a" />
+
 ### 🔎 Search Screen
 
 - **Search Pokemon**: Search pokemon by name or id
+
+<img width="300" height="800" alt="Simulator Screenshot - IPhone Seva 13 - 2025-08-13 at 15 59 43" src="https://github.com/user-attachments/assets/990dc10f-b355-4bbe-a5dd-1c6d2fb0fac3" />
 
 ### 📋 Detail Screen
 
@@ -22,10 +26,18 @@ A React Native application for browsing Pokemon with search, filter, detail, and
   - Stat and basic information
   - Evolution Chain
 
+<img width="300" height="800" alt="Simulator Screenshot - IPhone Seva 13 - 2025-08-13 at 16 00 37" src="https://github.com/user-attachments/assets/731da4c3-3306-4aae-a23a-52c5b023e83f" />
+
 ### 📋 Compare Screen
 
 - **Compare**: Compare pokemon for more then two
 - **Compare Result**: View information about Hp, Attack, Defense, Special Attack, Special Defense, and Speed
+
+<img width="300" height="800" alt="Simulator Screenshot - IPhone Seva 13 - 2025-08-13 at 16 01 03" src="https://github.com/user-attachments/assets/f3430878-a130-40da-a898-6274ad33a349" /> <img width="300" height="800" alt="Simulator Screenshot - IPhone Seva 13 - 2025-08-13 at 16 00 56" src="https://github.com/user-attachments/assets/bdd9c8a7-645d-4468-9317-55b6e64c1ece" />
+
+## Video
+
+[Video Simulasi - Google Drive](https://drive.google.com/drive/folders/1M5a57Jmd-9tDkbDqo8Ei-Kk3oc5OW6zH?usp=sharing)
 
 ## Tech Stack
 
@@ -49,7 +61,7 @@ A React Native application for browsing Pokemon with search, filter, detail, and
 
 ```sh
 git clone <repository-url>
-cd OgyoTest
+cd AsuransiAstraBuanaTest
 ```
 
 2. Install dependencies:
@@ -151,7 +163,6 @@ Pokedex/
 │   ├── types/            # TypeScript type definitions
 │   ├── utils/            # Utility functions
 │   └── themes/           # Theme configuration
-├── __tests__/            # Test files
 ├── ios/                  # iOS native code
 ├── android/              # Android native code
 └── package.json          # Project dependencies
