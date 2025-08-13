@@ -20,6 +20,8 @@ import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProps } from '../../navigation/type';
 import { Modalize } from 'react-native-modalize';
 import ModalFilter from './components/ModalFilter';
+import FloatingCompare from '../../components/FloatingCompare';
+import CounteFilter from './components/CounteFilter';
 
 const HomePage = () => {
   const { navigate } = useNavigation<RootNavigationProps>();
@@ -92,6 +94,7 @@ const HomePage = () => {
           <Text style={styles.textSearch}>Search</Text>
         </Pressable>
         <Pressable style={styles.filterContainer} onPress={handleFilter}>
+          <CounteFilter count={countFilter} />
           <Image source={images.filter} style={styles.imageFilter} />
         </Pressable>
       </View>
@@ -109,6 +112,7 @@ const HomePage = () => {
           <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
         }
       />
+      <FloatingCompare onPress={() => navigate('Compare')} />
       <ModalFilter modalRef={modalFilterRef} />
     </SafeAreaView>
   );

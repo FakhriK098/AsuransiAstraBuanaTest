@@ -18,6 +18,7 @@ interface PokemonState {
   pokemonTypes: PokemonListResponse | null;
   pokemonColors: PokemonListResponse | null;
   loading: boolean;
+  detailLoading: boolean;
   searchLoading: boolean;
   movesLoading: boolean;
   typesLoading: boolean;
@@ -56,6 +57,7 @@ const initialState: PokemonState = {
   typeSelected: null,
   colorSelected: null,
   countFilter: 0,
+  detailLoading: false,
 };
 
 const pokemonSlice = createSlice({
@@ -78,6 +80,9 @@ const pokemonSlice = createSlice({
       state.typeSelected = null;
       state.colorSelected = null;
       state.countFilter = 0;
+    },
+    resetDetail: state => {
+      state.pokemonDetail = null;
     },
   },
   extraReducers: builder => {
@@ -104,15 +109,15 @@ const pokemonSlice = createSlice({
       })
 
       .addCase(fetchPokemonById.pending, state => {
-        state.loading = true;
+        state.detailLoading = true;
         state.error = null;
       })
       .addCase(fetchPokemonById.fulfilled, (state, action) => {
-        state.loading = false;
+        state.detailLoading = false;
         state.pokemonDetail = action.payload;
       })
       .addCase(fetchPokemonById.rejected, (state, action) => {
-        state.loading = false;
+        state.detailLoading = false;
         state.error = action.error.message || 'Failed to fetch Pokemon';
       })
       .addCase(searchPokemon.pending, state => {
@@ -185,6 +190,6 @@ const pokemonSlice = createSlice({
   },
 });
 
-export const { setFilter, resetFilter } = pokemonSlice.actions;
+export const { setFilter, resetFilter, resetDetail } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;
