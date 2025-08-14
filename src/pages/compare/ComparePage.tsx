@@ -10,7 +10,10 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import ItemCompare from './components/ItemCompare';
 import { Modalize } from 'react-native-modalize';
 import ModalPokemon from './components/ModalPokemon';
-import { searchPokemon } from '../../store/thunks/pokemonThunks';
+import {
+  fetchPokemonById,
+  searchPokemon,
+} from '../../store/thunks/pokemonThunks';
 import { colors } from '../../themes/colors';
 import {
   addPokemonToCompare,
@@ -32,7 +35,14 @@ const ComparePage = () => {
   useEffect(() => {
     dispatch(searchPokemon()).then(() => {
       if (params && params.pokemonId) {
-        dispatch(addPokemonToCompare());
+        dispatch(
+          fetchPokemonById({
+            id: params.pokemonId,
+            page: 'compare',
+          }),
+        ).then(() => {
+          dispatch(addPokemonToCompare());
+        });
       }
     });
 
